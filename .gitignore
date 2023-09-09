@@ -1,0 +1,5 @@
+*.csv
+myenv\
+build\
+dist\
+movies_analyzer.egg-info\
