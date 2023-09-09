@@ -78,13 +78,22 @@ class MovieAnalyzer:
         return genre_counts
 
     # Save the dataset to a JSON file
-    def save_to_json(self, output_path):
+    def save_results_to_json(self, output_path):
         try:
-            self.metadata.to_json(output_path, orient="records", lines=True)
-            logging.info(f"Dataset saved to {output_path}.")
+            final_results = pd.DataFrame({
+                "Unique Movies Count": [self.unique_movies_count()],
+                "Average Rating": [self.average_rating()],
+                "Top Rated Movies": [self.top_rated_movies().to_dict(orient="records")],
+                "Movies per Year": [self.movies_per_year().to_dict(orient="records")],
+                "Movies per Genre": [self.movies_per_genre().to_dict(orient="records")]
+            })
+
+            # Save the final results DataFrame to a JSON file
+            final_results.to_json(output_path, orient="records", lines=True)
+
+            print(f"Full results saved to {output_path}")
         except Exception as e:
-            logging.error(f"Error saving dataset to JSON: {str(e)}")
-            raise
+            print(f"Error saving full results: {str(e)}")
 
 
 if __name__ == "__main__":
@@ -103,4 +112,4 @@ if __name__ == "__main__":
     print("Number of movies in each genre:")
     print(movie_analyzer.movies_per_genre())
 
-    movie_analyzer.save_to_json(output_json_path)
+    movie_analyzer.save_results_to_json(output_json_path)
