@@ -80,13 +80,21 @@ class MovieAnalyzer:
     # Save the dataset to a JSON file
     def save_results_to_json(self, output_path):
         try:
-            final_results = pd.DataFrame({
-                "Unique Movies Count": [self.unique_movies_count()],
-                "Average Rating": [self.average_rating()],
-                "Top Rated Movies": [self.top_rated_movies().to_dict(orient="records")],
-                "Movies per Year": [self.movies_per_year().to_dict(orient="records")],
-                "Movies per Genre": [self.movies_per_genre().to_dict(orient="records")]
-            })
+            final_results = pd.DataFrame(
+                {
+                    "Unique Movies Count": [self.unique_movies_count()],
+                    "Average Rating": [self.average_rating()],
+                    "Top Rated Movies": [
+                        self.top_rated_movies().to_dict(orient="records")
+                    ],
+                    "Movies per Year": [
+                        self.movies_per_year().to_dict(orient="records")
+                    ],
+                    "Movies per Genre": [
+                        self.movies_per_genre().to_dict(orient="records")
+                    ],
+                }
+            )
 
             # Save the final results DataFrame to a JSON file
             final_results.to_json(output_path, orient="records", lines=True)
